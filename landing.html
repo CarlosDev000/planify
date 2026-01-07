@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planify - Organiza tu vida</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 4rem;
+            background: linear-gradient(180deg, white 0%, var(--light) 100%);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Todo Preview Card */
+        .todo-preview {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            transform: rotate(2deg);
+            transition: transform 0.3s ease;
+        }
+
+        .todo-preview:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .todo-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+
+        .add-task {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-task input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .add-task input:focus {
+            border-color: var(--primary);
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .checkbox.checked {
+            background: var(--primary);
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .task-item:hover .delete-btn {
+            opacity: 1;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 16px;
+            background: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card:nth-child(1) .feature-icon {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, var(--dark), #312e81);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .todo-preview {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Planify</div>
+        <ul class="nav-links">
+            <li><a href="#features">Características</a></li>
+            <li><a href="#how-it-works">Cómo funciona</a></li>
+            <li><a href="#pricing">Precios</a></li>
+        </ul>
+        <a href="#" class="btn btn-primary">Empezar gratis</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Organiza tu vida <span>sin esfuerzo</span></h1>
+                <p>Planify es la forma más sencilla de gestionar tus tareas diarias. Crea listas, establece prioridades y alcanza tus objetivos.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary">Descargar gratis</a>
+                    <a href="#" class="btn btn-outline">Ver demo</a>
+                </div>
+            </div>
+            <div class="todo-preview">
+                <div class="todo-header">
+                    <h3>📋 Mis tareas</h3>
+                    <span style="color: var(--primary); font-weight: 600;">3 pendientes</span>
+                </div>
+                <div class="add-task">
+                    <input type="text" placeholder="Nueva tarea..." id="taskInput">
+                    <button class="btn btn-primary" onclick="addTask()" style="padding: 0.75rem 1rem;">+</button>
+                </div>
+                <ul class="task-list" id="taskList">
+                    <li class="task-item">
+                        <div class="checkbox" onclick="toggleTask(this)"></div>
+                        <span class="task-text">Revisar correos pendientes</span>
+                        <button class="delete-btn" onclick="deleteTask(this)">×</button>
+                    </li>
+                    <li class="task-item">
+                        <div class="checkbox" onclick="toggleTask(this)"></div>
+                        <span class="task-text">Preparar presentación</span>
+                        <button class="delete-btn" onclick="deleteTask(this)">×</button>
+                    </li>
+                    <li class="task-item completed">
+                        <div class="checkbox checked" onclick="toggleTask(this)"></div>
+                        <span class="task-text">Llamar al cliente</span>
+                        <button class="delete-btn" onclick="deleteTask(this)">×</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-title">¿Por qué Planify?</h2>
+        <p class="section-subtitle">Todo lo que necesitas para mantenerte organizado</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Rápido y simple</h3>
+                <p>Interfaz intuitiva que te permite añadir tareas en segundos. Sin curvas de aprendizaje.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Organiza por prioridad</h3>
+                <p>Marca tareas importantes y enfócate en lo que realmente importa.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Sincronización cloud</h3>
+                <p>Tus tareas siempre contigo. Accede desde cualquier dispositivo.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>¿Listo para ser más productivo?</h2>
+        <p>Únete a miles de personas que ya organizan su vida con Planify</p>
+        <a href="#" class="btn btn-primary">Empezar gratis ahora</a>
+    </section>
+
+    <footer>
+        <p>© 2025 Planify. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        function toggleTask(checkbox) {
+            checkbox.classList.toggle('checked');
+            checkbox.parentElement.classList.toggle('completed');
+            updateTaskCount();
+        }
+
+        function deleteTask(btn) {
+            btn.parentElement.style.animation = 'slideIn 0.3s ease reverse';
+            setTimeout(() => {
+                btn.parentElement.remove();
+                updateTaskCount();
+            }, 300);
+        }
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const taskList = document.getElementById('taskList');
+            
+            if (input.value.trim() === '') return;
+            
+            const li = document.createElement('li');
+            li.className = 'task-item';
+            li.innerHTML = `
+                <div class="checkbox" onclick="toggleTask(this)"></div>
+                <span class="task-text">${input.value}</span>
+                <button class="delete-btn" onclick="deleteTask(this)">×</button>
+            `;
+            
+            taskList.insertBefore(li, taskList.firstChild);
+            input.value = '';
+            updateTaskCount();
+        }
+
+        function updateTaskCount() {
+            const tasks = document.querySelectorAll('.task-item');
+            const pending = document.querySelectorAll('.task-item:not(.completed)').length;
+            document.querySelector('.todo-header span').textContent = `${pending} pendientes`;
+        }
+
+        // Enter key to add task
+        document.getElementById('taskInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addTask();
+        });
+    </script>
+</body>
+</html>
