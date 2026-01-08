@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes y Precios - Planify</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <p class="loader-text">Cargando...</p>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="landing.html" class="logo">Planify</a>
+        <a href="landing.html" class="btn btn-outline">← Volver al inicio</a>
+    </nav>
+
+    <section class="pricing-section">
+        <h1 class="pricing-title">Elige tu plan</h1>
+        <p class="pricing-subtitle">Comienza gratis, actualiza cuando quieras</p>
+
+        <div class="pricing-toggle">
+            <span class="toggle-label active" id="monthlyLabel">Mensual</span>
+            <div class="toggle-switch" id="toggleSwitch">
+                <div class="toggle-circle"></div>
+            </div>
+            <span class="toggle-label" id="yearlyLabel">Anual <span class="discount-badge">-20%</span></span>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Free Plan -->
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h3 class="plan-name">Gratis</h3>
+                    <p class="plan-description">Perfecto para comenzar</p>
+                </div>
+                <div class="card-price">
+                    <span class="price-amount monthly-price">$0</span>
+                    <span class="price-amount yearly-price hidden">$0</span>
+                    <span class="price-period">/mes</span>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> Hasta 50 tareas</li>
+                    <li><span class="check">✓</span> 1 lista de tareas</li>
+                    <li><span class="check">✓</span> Recordatorios básicos</li>
+                    <li><span class="check">✓</span> Sincronización en 1 dispositivo</li>
+                    <li class="disabled"><span class="cross">✗</span> Categorías y etiquetas</li>
+                    <li class="disabled"><span class="cross">✗</span> Colaboración en equipo</li>
+                    <li class="disabled"><span class="cross">✗</span> Exportación a PDF/Excel</li>
+                </ul>
+                <button class="btn btn-outline plan-btn" onclick="selectPlan('free')">Comenzar gratis</button>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card featured">
+                <div class="featured-badge">Más popular</div>
+                <div class="card-header">
+                    <h3 class="plan-name">Pro</h3>
+                    <p class="plan-description">Para usuarios exigentes</p>
+                </div>
+                <div class="card-price">
+                    <span class="price-amount monthly-price">$9.99</span>
+                    <span class="price-amount yearly-price hidden">$7.99</span>
+                    <span class="price-period">/mes</span>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> Tareas ilimitadas</li>
+                    <li><span class="check">✓</span> Listas ilimitadas</li>
+                    <li><span class="check">✓</span> Recordatorios avanzados</li>
+                    <li><span class="check">✓</span> Sincronización ilimitada</li>
+                    <li><span class="check">✓</span> Categorías y etiquetas</li>
+                    <li class="disabled"><span class="cross">✗</span> Colaboración en equipo</li>
+                    <li class="disabled"><span class="cross">✗</span> Exportación a PDF/Excel</li>
+                </ul>
+                <button class="btn btn-primary plan-btn" onclick="selectPlan('pro')">Elegir Pro</button>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h3 class="plan-name">Premium</h3>
+                    <p class="plan-description">El completo poder de organización</p>
+                </div>
+                <div class="card-price">
+                    <span class="price-amount monthly-price">$19.99</span>
+                    <span class="price-amount yearly-price hidden">$15.99</span>
+                    <span class="price-period">/mes</span>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> Todo lo de Pro</li>
+                    <li><span class="check">✓</span> Colaboración en equipo</li>
+                    <li><span class="check">✓</span> Exportación a PDF/Excel</li>
+                    <li><span class="check">✓</span> Plantillas premium</li>
+                    <li><span class="check">✓</span> Soporte prioritario</li>
+                    <li><span class="check">✓</span> Analytics de productividad</li>
+                    <li><span class="check">✓</span> Integraciones avanzadas</li>
+                </ul>
+                <button class="btn btn-outline plan-btn" onclick="selectPlan('premium')">Elegir Premium</button>
+            </div>
+        </div>
+
+        <div class="guarantee">
+            <div class="guarantee-icon">🛡️</div>
+            <div class="guarantee-text">
+                <strong>Garantía de satisfacción</strong>
+                <p>30 días de garantía de devolución de dinero. Sin preguntas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2 class="faq-title">Preguntas frecuentes</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Puedo cambiar de plan en cualquier momento?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Sí, puedes actualizar o downgradear tu plan en cualquier momento. Los cambios se aplicarán en tu próximo ciclo de facturación.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Qué métodos de pago aceptan?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Aceptamos tarjetas de crédito/débito (Visa, Mastercard, American Express), PayPal y transferencias bancarias.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Hay un período de prueba gratis?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>¡Sí! Todos los planes de pago incluyen una prueba gratuita de 14 días. No necesitas proporcionar información de pago para comenzar.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Mis datos están seguros?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Absolutamente. Utilizamos encriptación de extremo a extremo y almacenamos tus datos en servidores seguros con respaldo automático.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>¿Tienes preguntas?</h2>
+        <p>Nuestro equipo de soporte está listo para ayudarte</p>
+        <a href="mailto:soporte@planify.com" class="btn btn-primary">Contactar soporte</a>
+    </section>
+
+    <footer>
+        <p>© 2025 Planify. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Loading spinner - hides after 3 seconds
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('hidden');
+            }, 3000);
+        });
+
+        // Toggle between monthly and yearly pricing
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const monthlyLabel = document.getElementById('monthlyLabel');
+        const yearlyLabel = document.getElementById('yearlyLabel');
+        let isYearly = false;
+
+        toggleSwitch.addEventListener('click', function() {
+            isYearly = !isYearly;
+            toggleSwitch.classList.toggle('yearly');
+            
+            const circle = toggleSwitch.querySelector('.toggle-circle');
+            circle.style.transform = isYearly ? 'translateX(24px)' : 'translateX(0)';
+            
+            monthlyLabel.classList.toggle('active');
+            yearlyLabel.classList.toggle('active');
+
+            // Show/hide prices
+            document.querySelectorAll('.monthly-price').forEach(el => {
+                el.classList.toggle('hidden', isYearly);
+            });
+            document.querySelectorAll('.yearly-price').forEach(el => {
+                el.classList.toggle('hidden', !isYearly);
+            });
+        });
+
+        // Plan selection
+        function selectPlan(plan) {
+            const messages = {
+                'free': '¡Excelente elección! El plan gratuito es perfecto para comenzar. Serás redirigido al registro...',
+                'pro': '¡Perfecto! El plan Pro incluye todas las funciones que necesitas. Preparando tu registro...',
+                'premium': '¡Excelente! Obtendrás todas las funciones premium. Preparando tu registro...'
+            };
+            
+            // Add button animation
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Procesando...';
+            btn.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                alert(messages[plan]);
+                btn.textContent = originalText;
+                btn.style.pointerEvents = 'auto';
+            }, 1000);
+        }
+
+        // FAQ toggle
+        function toggleFaq(button) {
+            const faqItem = button.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            const icon = button.querySelector('.faq-icon');
+            
+            faqItem.classList.toggle('active');
+            
+            if (faqItem.classList.contains('active')) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                icon.textContent = '−';
+            } else {
+                answer.style.maxHeight = '0';
+                icon.textContent = '+';
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
