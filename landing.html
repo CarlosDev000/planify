@@ -7,15 +7,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav>
-        <div class="logo">Planify</div>
-        <ul class="nav-links">
-            <li><a href="#features">Características</a></li>
-            <li><a href="#how-it-works">Cómo funciona</a></li>
-            <li><a href="#pricing">Precios</a></li>
-        </ul>
-        <a href="#" class="btn btn-primary">Empezar gratis</a>
-    </nav>
+    <!-- Loading Spinner -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <p class="loader-text">Cargando...</p>
+    </div>
 
     <section class="hero">
         <div class="hero-content">
@@ -90,6 +86,13 @@
     </footer>
 
     <script>
+        // Loading spinner - hides after 3 seconds
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('hidden');
+            }, 3000);
+        });
+
         function toggleTask(checkbox) {
             checkbox.classList.toggle('checked');
             checkbox.parentElement.classList.toggle('completed');
