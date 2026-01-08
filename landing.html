@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Loading Spinner -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <p class="loader-text">Cargando...</p>
+    </div>
+
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
@@ -80,6 +86,13 @@
     </footer>
 
     <script>
+        // Loading spinner - hides after 3 seconds
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('hidden');
+            }, 3000);
+        });
+
         function toggleTask(checkbox) {
             checkbox.classList.toggle('checked');
             checkbox.parentElement.classList.toggle('completed');
